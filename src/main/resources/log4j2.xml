@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="trace">
+    <Appenders>
+<!--        <Console name="Console" traget="SYSTEM_OUT">-->
+<!--            <PatternLayout pattern="%d{yyy-MMM-dd hh:mm:ss a} %level %c - %m %n"/>-->
+<!--        </Console>-->
+        <JDBC name="databaseAppender" tableName="logdb.event_log">
+            <ConnectionFactory class="com.demo.logging.ConnectionFactory" method="getDatabaseConnection"/>
+            <Column name="ID" pattern="%u"/>
+            <Column name="DATE_TIME" isEventTimestamp="true"/>
+            <Column name="CLASS_INFO" pattern="%logger"/>
+            <Column name="LEVEL" pattern="%level"/>
+            <Column name="mess" pattern="%m" isClob="true"/>
+            <Column name="EXCEPTION_INFO" pattern="%ex{full}" isClob="true"/>
+        </JDBC>
+        <JDBC name="databaseAppender1" tableName="logdb.event_log2">
+            <ConnectionFactory class="com.demo.logging.ConnectionFactory" method="getDatabaseConnection"/>
+            <Column name="ID" pattern="%u"/>
+            <Column name="DATE_TIME" isEventTimestamp="true"/>
+            <Column name="mess" pattern="%m" isClob="true"/>
+<!--            <Column name="LEVEL" pattern="%level"/>-->
+<!--            <Column name="mess" pattern="%m" isClob="true"/>-->
+<!--            <Column name="EXCEPTION_INFO" pattern="%ex{full}" isClob="true"/>-->
+        </JDBC>
+    </Appenders>
+    <Loggers>
+<!--        <Logger name="com.demo.logging" level="trace">-->
+<!--            <AppenderRef ref="Console"/>-->
+<!--        </Logger>-->
+        <Root level="warn">
+            <AppenderRef ref="databaseAppender"/>
+            <AppenderRef ref="databaseAppender1"/>
+        </Root>
+    </Loggers>
+</Configuration>
